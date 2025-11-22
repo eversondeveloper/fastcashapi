@@ -1,4 +1,7 @@
-const { pool } = require('./configuracaoBanco');
+const { Pool } = require('pg');
+const configuracao = require('./configuracaoBanco');
+
+const pool = new Pool(configuracao);
 
 const obterVendas = async () => {
     const consulta = 'SELECT * FROM vendas ORDER BY data_hora DESC';
@@ -144,6 +147,7 @@ const apagarVendasEmMassa = async (idsVendas) => {
     }
 };
 
+
 const obterProdutos = async () => {
     const consulta = 'SELECT * FROM produtos WHERE ativo = TRUE ORDER BY id_produto ASC';
     const resultado = await pool.query(consulta);
@@ -209,6 +213,8 @@ const desativarProduto = async (idProduto) => {
     return resultado.rows[0];
 };
 
+
+// Funções CRUD para a tabela EMPRESAS
 const obterEmpresas = async () => {
     const consulta = 'SELECT * FROM empresas ORDER BY id_empresa ASC';
     const resultado = await pool.query(consulta);
@@ -282,6 +288,7 @@ const apagarEmpresa = async (idEmpresa) => {
     const resultado = await pool.query(consulta, [idEmpresa]);
     return resultado.rows.length > 0;
 };
+
 
 module.exports = {
     obterVendas,
